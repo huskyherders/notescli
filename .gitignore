@@ -1,3 +1,6 @@
+# Custom for this project
+cli/.notescfg
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
