@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 import argparse
 import os
 import glob
@@ -11,6 +11,7 @@ from dataclasses import dataclass, asdict
 class NotesCfg:
     dirpath: str
     remote: str
+    signedCommits: bool = False
 
 
 #
@@ -37,11 +38,13 @@ def git_add(dirpath:str, filename:str):
     cmd = f"git -C {dirpath} add {filename}"
     os.system(cmd)
 
-def git_commit(dirpath:str, message:str):
+def git_commit(dirpath:str, message:str, signed:bool=False):
     """
     Commit changes to the git repository
     """
     cmd = f"git -C {dirpath} commit -m '{message}'"
+    if signed:
+        cmd += " -S"
     os.system(cmd)
 
 def git_push(dirpath:str):
@@ -222,5 +225,5 @@ if __name__ == '__main__':
         setup(cfg)
         if not args.nosync:
             git_push(cfg.dirpath)
-            
+
 
