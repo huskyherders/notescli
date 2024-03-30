@@ -64,7 +64,7 @@ def get_cfg()->NotesCfg:
     """
     cfg = NotesCfg(dirpath=".", remote="")
     # Get path to this file
-    cfgFile = Path(os.path.abspath(__file__))
+    cfgFile = Path(os.path.realpath(__file__))
     cfgFile = cfgFile.parent / ".notescfg"
     if os.path.exists(cfgFile):
         with open(cfgFile, "r") as fr:
@@ -94,7 +94,7 @@ def setup(cfg:NotesCfg):
         git_add(cfg.dirpath, "tags.json")
         git_commit(cfg.dirpath, "Add initial tags file")
     # Save cfg
-    cfgFile = Path(os.path.abspath(__file__))
+    cfgFile = Path(os.path.realpath(__file__))
     cfgFile = cfgFile.parent / ".notescfg"
     with open(cfgFile, "w") as fw:
         json.dump(asdict(cfg), fw)
@@ -103,7 +103,7 @@ def new_tagfile(dirpath:str):
     """
     Create a new tag file
     """
-    dfltFile = Path(os.path.abspath(__file__))
+    dfltFile = Path(os.path.realpath(__file__))
     dfltFile = dfltFile.parent / "defaulttags.json"
     with open(dfltFile, "r") as fr:
         DEFAULT_TAGS = json.load(fr)
@@ -115,6 +115,8 @@ def get_tags(dirpath:str):
     """
     Get the tags from the tags file
     """
+    if not os.path.exists(f"{dirpath}/tags.json"):
+        new_tagfile(dirpath)
     with open(f"{dirpath}/tags.json", "r") as f:
         tags = json.load(f)
     return tags

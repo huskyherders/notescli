@@ -4,3 +4,6 @@ CMD_NAME ?= notescli
 install:
 	chmod +x cli/notescli.py
 	sudo ln -s $(ROOT_DIR)/cli/notescli.py $(INSTALL_DIR)/$(CMD_NAME)
+
+uninstall:
+	sudo unlink $(INSTALL_DIR)/$(CMD_NAME)
